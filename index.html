@@ -14,17 +14,27 @@
   const tg = Telegram.WebApp;
   tg.ready();
 
+  // BACKEND_URL: set to your backend address.
+  // For local desktop testing use: http://127.0.0.1:8000
+  // For testing from mobile/Telegram use an HTTPS public URL (eg. from ngrok): https://abcd-12-34.ngrok.io
+  const BACKEND_URL = "http://127.0.0.1:8000"; // change if needed
+
   function sendGift() {
-    fetch("http://127.0.0.1:8000", {
+    fetch(BACKEND_URL + "/send-gift", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        initData: tg.initData
-      })
+      body: JSON.stringify({ initData: tg.initData })
     })
-    .then(r => r.json())
-    .then(r => tg.showAlert(r.message))
-    .catch(() => tg.showAlert("Ошибка"));
+    .then(async r => {
+      const data = await r.json().catch(() => ({}));
+      if (!r.ok) throw data;
+      return data;
+    })
+    .then(r => tg.showAlert(r.message || "OK"))
+    .catch(err => {
+      console.error('sendGift error', err);
+      tg.showAlert((err && err.message) || "Ошибка при отправке подарка");
+    });
   }
 </script>
 
