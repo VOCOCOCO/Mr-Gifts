@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Gift Mini App</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+<body style="display:flex;align-items:center;justify-content:center;height:100vh">
+
+<button onclick="sendGift()">🎁 Отправить подарок</button>
+
+<script>
+  const tg = Telegram.WebApp;
+  tg.ready();
+
+  function sendGift() {
+    fetch("http://127.0.0.1:8000", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        initData: tg.initData
+      })
+    })
+    .then(r => r.json())
+    .then(r => tg.showAlert(r.message))
+    .catch(() => tg.showAlert("Ошибка"));
+  }
+</script>
+
+</body>
+</html>
