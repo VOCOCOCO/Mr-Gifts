@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1.0, user-scalable=no" />
-  <title>Gifts Cases — Home / Upgrade / Inventory</title>
+  <title>Gifts Battle — Cases / Upgrade / Tasks / Inventory</title>
 
   <!-- Telegram WebApp SDK -->
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
@@ -56,6 +56,15 @@
       padding-top: var(--safeTop);
     }
 
+    /* ===== STAR ICON (PNG) ===== */
+    .starI{
+      width:16px;height:16px; display:inline-block;
+      vertical-align:-3px;
+      filter: drop-shadow(0 6px 14px rgba(255,213,106,.18));
+    }
+    .starRow{display:flex; align-items:center; gap:6px}
+    .starRow .val{font-weight:950}
+
     /* ===== TOP BAR ===== */
     .topbar{
       padding: 14px 16px 10px;
@@ -80,6 +89,13 @@
       line-height:1.1;
       margin:0;
     }
+    .subTitle{
+      margin:2px 0 0;
+      font-weight:850;
+      font-size:12px;
+      color:rgba(255,255,255,.55);
+      letter-spacing:.4px;
+    }
 
     .wallet{
       display:flex; align-items:center; gap:10px;
@@ -99,10 +115,8 @@
     .balance{
       font-weight:950; font-size:14px;
       display:flex; align-items:center; gap:6px;
-      min-width:80px; justify-content:flex-end;
+      min-width:86px; justify-content:flex-end;
     }
-    .star{filter: drop-shadow(0 6px 16px rgba(255,213,106,.25))}
-    .star::before{content:"★"; color:var(--gold); font-size:16px}
 
     .content{
       flex:1;
@@ -131,7 +145,7 @@
 
     .sep{height:10px}
 
-    /* ===== BOTTOM NAV (как на фото 1) ===== */
+    /* ===== BOTTOM NAV ===== */
     .nav{
       position:fixed;
       left:0; right:0;
@@ -238,12 +252,10 @@
       height: 148px;
       display:grid; place-items:center;
       position:relative;
-      padding: 0; /* чтобы фото было видно полностью */
       overflow:hidden;
     }
     .caseCard.big .caseHero{ height: 160px; }
 
-    /* УБРАЛИ контейнер-обводку вокруг фото кейсов */
     .caseAvatar{
       width: 100%;
       height: 100%;
@@ -282,9 +294,6 @@
       color: rgba(255,255,255,.92);
       font-size: 13px;
     }
-    .priceRow .left{
-      display:flex; align-items:center; gap:8px;
-    }
     .miniTag{
       font-size:11px;
       font-weight:950;
@@ -314,11 +323,15 @@
       border: 1px solid rgba(255,255,255,.12);
       box-shadow: 0 30px 90px rgba(0,0,0,.65);
       overflow:hidden;
+      max-height: 85vh;
+      display:flex;
+      flex-direction:column;
     }
     .modalHead{
       padding: 14px 14px 10px;
       display:flex; align-items:center; justify-content:space-between;
       border-bottom:1px solid rgba(255,255,255,.08);
+      flex:0 0 auto;
     }
     .modalHead .h{
       font-weight:950;
@@ -333,6 +346,12 @@
       background:rgba(255,255,255,.06);
       border:1px solid rgba(255,255,255,.10);
       cursor:pointer;
+      flex:0 0 auto;
+    }
+    .modalScroll{
+      overflow:auto;
+      -webkit-overflow-scrolling: touch;
+      flex:1 1 auto;
     }
 
     .btn{
@@ -526,7 +545,43 @@
     .tagWin.good{border-color: rgba(37,227,154,.30); background: rgba(37,227,154,.10)}
     .tagWin.bad{border-color: rgba(255,74,106,.28); background: rgba(255,74,106,.10)}
 
-    /* ===== INVENTORY ===== */
+    /* ===== INVENTORY (REWORK) ===== */
+    .profileCard{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      padding: 12px;
+      border-radius: 22px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.06);
+      box-shadow: 0 14px 40px rgba(0,0,0,.22);
+      margin-bottom: 12px;
+    }
+    .ava{
+      width:54px;height:54px;border-radius: 18px;
+      background: linear-gradient(180deg, rgba(74,163,255,.22), rgba(74,163,255,.10));
+      border:1px solid rgba(74,163,255,.22);
+      display:grid; place-items:center;
+      font-weight:950;
+      letter-spacing:.6px;
+      box-shadow: 0 16px 40px rgba(43,123,255,.14);
+      flex:0 0 auto;
+    }
+    .pmeta{min-width:0; flex:1}
+    .pname{font-weight:950; font-size:14px; margin:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+    .puser{margin:2px 0 0; font-weight:900; font-size:12px; color:rgba(255,255,255,.58); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+    .energyPill{
+      padding: 8px 10px;
+      border-radius: 999px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.18);
+      display:flex; align-items:center; gap:8px;
+      font-weight:950;
+      color: rgba(255,255,255,.88);
+      flex:0 0 auto;
+    }
+    .energyPill .bolt{filter: drop-shadow(0 10px 18px rgba(74,163,255,.18))}
+
     .invGrid{
       display:grid;
       grid-template-columns: repeat(2, minmax(0,1fr));
@@ -540,7 +595,8 @@
       overflow:hidden;
       display:flex;
       flex-direction:column;
-      min-height: 210px;
+      min-height: 214px;
+      position:relative;
     }
     .giftTop{
       padding: 12px;
@@ -560,7 +616,6 @@
       text-align:center;
       font-size: 12px;
     }
-    /* УБРАЛИ ОБВОДКУ у фото подарков */
     .giftImg{
       margin: 0 12px 10px;
       height: 96px;
@@ -583,12 +638,6 @@
       line-height:1.15;
       color: rgba(255,255,255,.92);
       min-height: 30px;
-    }
-    .giftPrice{
-      display:flex; align-items:center; gap:8px;
-      font-weight:950;
-      color: rgba(255,255,255,.86);
-      font-size: 12px;
     }
     .giftActions{
       margin-top:auto;
@@ -615,17 +664,13 @@
     }
     .btnSmall:active{transform: translateY(1px)}
 
-    /* ===== UPGRADE (как на фото 2: маленькая стрелка по кольцу + синяя полоса WIN) ===== */
-    .upgradeTitle{
-      text-align:center;
-      font-weight:950;
-      letter-spacing:1.4px;
-      text-transform:uppercase;
-      color: rgba(255,255,255,.78);
-      margin: 6px 0 14px;
-      font-size: 13px;
+    /* ===== UPGRADE (REWORK, ровно) ===== */
+    .upWrap{
+      display:flex;
+      flex-direction:column;
+      gap:12px;
     }
-    .slots{
+    .upRow2{
       display:grid;
       grid-template-columns: 1fr 1fr;
       gap: 12px;
@@ -635,7 +680,7 @@
       border:1px solid rgba(255,255,255,.10);
       background: rgba(255,255,255,.06);
       padding: 12px;
-      min-height: 140px;
+      min-height: 132px;
       display:flex;
       flex-direction:column;
       gap:8px;
@@ -681,21 +726,21 @@
     .pick .info b{ font-size: 13px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
     .pick .info span{ font-size: 12px; color: rgba(255,255,255,.65); display:flex; align-items:center; gap:6px; white-space:nowrap; }
 
-    .upgradeMid{
-      margin: 14px 0 0;
-      display:flex; align-items:center; justify-content:space-between; gap:14px;
+    .upCenter{
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:10px;
+      padding: 8px 0 2px;
     }
-
-    /* Кольцо */
     .ringWrap{
-      width: 164px; height: 164px;
+      width: 168px; height: 168px;
       position:relative;
       display:grid;
       place-items:center;
-      flex: 0 0 auto;
     }
     .ring{
-      width: 164px; height: 164px;
+      width: 168px; height: 168px;
       border-radius: 999px;
       background: rgba(0,0,0,.16);
       border:1px solid rgba(255,255,255,.10);
@@ -703,45 +748,52 @@
       position:relative;
       overflow:hidden;
     }
-    /* серое кольцо */
     .ring::before{
       content:"";
       position:absolute; inset:12px;
       border-radius: 999px;
       border: 10px solid rgba(255,255,255,.08);
     }
-    /* WIN-полоса (синяя дуга), длина = шанс */
     .winArc{
       position:absolute;
       inset:12px;
       border-radius: 999px;
       border: 10px solid rgba(74,163,255,.65);
-      /* длина и поворот задаются JS через conic-gradient маску */
       -webkit-mask: conic-gradient(#000 0deg, #000 10deg, transparent 10deg);
               mask: conic-gradient(#000 0deg, #000 10deg, transparent 10deg);
       filter: drop-shadow(0 10px 22px rgba(74,163,255,.18));
     }
     .centerBadge{
-      width:74px; height:74px;
-      border-radius: 999px;
-      background: rgba(255,255,255,.06);
-      border:1px solid rgba(255,255,255,.10);
-      display:grid; place-items:center;
-      text-align:center;
-      padding: 8px;
-      z-index:3;
-    }
-    .centerBadge b{font-size: 16px}
-    .centerBadge span{
-      margin-top:2px;
-      font-size: 10.5px;
-      color: rgba(255,255,255,.62);
-      font-weight:950;
-      letter-spacing:1.2px;
-      text-transform:uppercase
-    }
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 
-    /* Маленькая стрелка, которая КРУТИТСЯ ПО КОЛЬЦУ */
+  width:78px;
+  height:78px;
+  border-radius:999px;
+  background: rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.10);
+
+  display:grid;
+  place-items:center;
+  text-align:center;
+  padding:8px;
+  z-index:3;
+}
+
+.centerBadge b{ font-size:16px }
+
+.centerBadge span{
+  margin-top:2px;
+  font-size:10.5px;
+  color: rgba(255,255,255,.62);
+  font-weight:950;
+  letter-spacing:1.2px;
+  text-transform:uppercase;
+}
+
+
     .spinner{
       position:absolute;
       inset:0;
@@ -765,7 +817,6 @@
       border-radius: 999px;
       background: rgba(255,255,255,.92);
       box-shadow: 0 10px 18px rgba(0,0,0,.35);
-      /* точка на окружности */
       transform: translate(-50%, -50%);
     }
     .needleTip{
@@ -778,26 +829,100 @@
       transform: translate(-50%, -50%) rotate(0deg);
     }
 
-    .upgradeControls{
-      flex:1;
-      display:flex;
-      flex-direction:column;
-      gap:10px;
-    }
-    .hint{
+    .upHint{
+      width:100%;
       font-size: 12.5px;
-      color: rgba(255,255,255,.75);
+      color: rgba(255,255,255,.78);
       line-height:1.35;
       background: rgba(0,0,0,.14);
       border:1px solid rgba(255,255,255,.08);
       border-radius: 16px;
       padding: 10px 10px;
+      text-align:center;
+    }
+    .upBtns{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      width:100%;
+    }
+    .note{
+      width:100%;
+      font-size: 12.5px;
+      color: rgba(255,255,255,.80);
+      line-height:1.35;
+      background: rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.10);
+      border-radius: 16px;
+      padding: 10px 10px;
+      display:none;
+    }
+
+    /* ===== TASKS (как на фото 2 — аккуратный лист заданий) ===== */
+    .tasksList{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+    .taskCard{
+      border-radius: 22px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.14);
+      padding: 12px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      box-shadow: 0 12px 35px rgba(0,0,0,.20);
+    }
+    .taskLeft{
+      display:flex; align-items:center; gap:10px; min-width:0;
+    }
+    .taskIcon{
+      width:44px;height:44px;border-radius: 16px;
+      background: rgba(74,163,255,.14);
+      border:1px solid rgba(74,163,255,.18);
+      display:grid; place-items:center;
+      font-size: 22px;
+      flex:0 0 auto;
+    }
+    .taskMeta{min-width:0}
+    .taskTitle{
+      margin:0;
+      font-weight:950;
+      font-size: 13.5px;
+      white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+    }
+    .taskSub{
+      margin:3px 0 0;
+      font-weight:900;
+      font-size: 12px;
+      color: rgba(255,255,255,.58);
+      display:flex; align-items:center; gap:8px;
+    }
+    .taskBtn{
+      height: 40px;
+      padding: 0 14px;
+      border-radius: 14px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(74,163,255,.18);
+      color: rgba(255,255,255,.95);
+      font-weight:950;
+      cursor:pointer;
+      display:flex; align-items:center; gap:8px;
+      flex:0 0 auto;
+      user-select:none;
+      white-space:nowrap;
+    }
+    .taskBtn.done{
+      background: rgba(37,227,154,.12);
+      border-color: rgba(37,227,154,.18);
+      color: rgba(255,255,255,.92);
+      cursor:default;
     }
 
     /* Picker sheet */
     .sheetBody{
-      max-height: 55vh;
-      overflow:auto;
       padding: 12px;
       display:grid;
       grid-template-columns: repeat(2, minmax(0,1fr));
@@ -899,6 +1024,29 @@
       font-size:14px;
     }
 
+    /* Withdraw modal */
+    .codeBox{
+      margin: 12px 14px 0;
+      border-radius: 18px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.18);
+      padding: 12px;
+      font-weight:950;
+      letter-spacing: .6px;
+      word-break: break-all;
+      color: rgba(255,255,255,.92);
+    }
+    .smallHint{
+      margin: 10px 14px 14px;
+      border-radius: 16px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.06);
+      padding: 10px;
+      font-size: 12.5px;
+      color: rgba(255,255,255,.78);
+      line-height: 1.35;
+    }
+
     /* Toast */
     .toast{
       position:fixed;
@@ -939,6 +1087,7 @@
 
       <div class="titleWrap">
         <p class="title">Gifts Battle</p>
+        <p class="subTitle" id="topSub">Cases</p>
       </div>
 
       <div class="wallet">
@@ -947,12 +1096,16 @@
             <path d="M12 5v14M5 12h14" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/>
           </svg>
         </div>
-        <div class="balance"><span class="star"></span><span id="starsValue">0</span></div>
+        <div class="balance">
+          <img class="starI" id="starIconTop" alt="★">
+          <span id="starsValue">0</span>
+        </div>
       </div>
     </div>
 
     <div class="content" id="scrollArea">
-      <!-- HOME -->
+
+      <!-- HOME / CASES -->
       <div class="page active" id="pageHome">
         <div class="sectionTitle">CASES</div>
         <div class="casesGrid" id="casesGrid"></div>
@@ -961,55 +1114,69 @@
       <!-- UPGRADE -->
       <div class="page" id="pageUpgrade">
         <div class="sectionTitle">UPGRADE</div>
-
         <div class="panel">
-          <div class="upgradeTitle">Апгрейд</div>
-
-          <div class="slots">
-            <div class="slot" id="slotFrom">
-              <div class="label">
-                <span>Что апгрейдим</span>
-                <span class="miniBtn" id="pickFromBtn">Выбрать</span>
+          <div class="upWrap">
+            <div class="upRow2">
+              <div class="slot" id="slotFrom">
+                <div class="label">
+                  <span>FROM</span>
+                  <span class="miniBtn" id="pickFromBtn">Выбрать</span>
+                </div>
+                <div class="pick" id="fromPick"></div>
               </div>
-              <div class="pick" id="fromPick"></div>
+
+              <div class="slot" id="slotTo">
+                <div class="label">
+                  <span>TO</span>
+                  <span class="miniBtn" id="pickToBtn">Выбрать</span>
+                </div>
+                <div class="pick" id="toPick"></div>
+              </div>
             </div>
 
-            <div class="slot" id="slotTo">
-              <div class="label">
-                <span>Цель</span>
-                <span class="miniBtn" id="pickToBtn">Выбрать</span>
-              </div>
-              <div class="pick" id="toPick"></div>
-            </div>
-          </div>
+            <div class="upCenter">
+              <div class="ringWrap" aria-label="Шанс + стрелка по кольцу">
+                <div class="ring" id="ring">
+                  <div class="winArc" id="winArc"></div>
 
-          <div class="upgradeMid">
-            <div class="ringWrap" aria-label="Шанс + стрелка по кольцу">
-              <div class="ring" id="ring">
-                <div class="winArc" id="winArc"></div>
+                  <div class="spinner">
+                    <div class="spinnerArm" id="spinnerArm">
+                      <div class="needle" id="needleDot"></div>
+                      <div class="needleTip" id="needleTip"></div>
+                    </div>
+                  </div>
 
-                <div class="spinner">
-                  <div class="spinnerArm" id="spinnerArm">
-                    <div class="needle" id="needleDot"></div>
-                    <div class="needleTip" id="needleTip"></div>
+                  <div class="centerBadge">
+                    <b id="chanceText">0%</b>
+                    <span>chance</span>
                   </div>
                 </div>
-
-                <div class="centerBadge">
-                  <b id="chanceText">0%</b>
-                  <span>chance</span>
-                </div>
               </div>
-            </div>
 
-            <div class="upgradeControls">
-              <div class="hint" id="upgradeHint">
-                Выбери <b>исходный</b> подарок из инвентаря и <b>цель</b>.
+              <div class="upHint" id="upgradeHint">
+                Выбери <b>исходный</b> подарок и <b>цель</b>.
               </div>
-              <button class="btn" id="btnUpgrade" disabled>Апгрейд</button>
-              <button class="btn ghost" id="btnResetUpgrade">Сбросить</button>
-              <div class="hint" id="upgradeResultNote" style="display:none;"></div>
+
+              <div class="upBtns">
+                <button class="btn" id="btnUpgrade" disabled>Апгрейд</button>
+                <button class="btn ghost" id="btnResetUpgrade">Сбросить</button>
+              </div>
+
+              <div class="note" id="upgradeResultNote"></div>
             </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TASKS (вместо TOP) -->
+      <div class="page" id="pageTasks">
+        <div class="sectionTitle">TASKS</div>
+        <div class="panel">
+          <div class="tasksList" id="tasksList"></div>
+          <div class="sep"></div>
+          <div class="upHint" style="text-align:left">
+            💡 За выполненное задание даётся <b>⚡ энергия</b>.<br>
+            Каждая ⚡ добавляет <b>+5%</b> к шансу <b>(только визуально)</b>.
           </div>
         </div>
       </div>
@@ -1017,6 +1184,18 @@
       <!-- INVENTORY -->
       <div class="page" id="pageInv">
         <div class="sectionTitle">INVENTORY</div>
+
+        <div class="profileCard">
+          <div class="ava" id="ava">U</div>
+          <div class="pmeta">
+            <p class="pname" id="pname">User</p>
+            <p class="puser" id="puser">@username</p>
+          </div>
+          <div class="energyPill" title="Энергия">
+            <span class="bolt">⚡</span>
+            <span id="energyValue">0</span>
+          </div>
+        </div>
 
         <div class="panel">
           <div class="invGrid" id="invGrid"></div>
@@ -1026,15 +1205,6 @@
         </div>
       </div>
 
-      <!-- TOP (placeholder, аккуратно) -->
-      <div class="page" id="pageTop">
-        <div class="sectionTitle">TOP</div>
-        <div class="panel">
-          <div class="hint" style="text-align:center">
-            Здесь можно сделать лидерборд (топ игроков / выигрышей).
-          </div>
-        </div>
-      </div>
     </div>
 
     <!-- Bottom Nav -->
@@ -1047,21 +1217,22 @@
             <path d="M4 11.2 12 4l8 7.2V20a1.8 1.8 0 0 1-1.8 1.8H5.8A1.8 1.8 0 0 1 4 20v-8.8Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
             <path d="M9.5 21v-7.2h5V21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
           </svg>
-          COIN
+          CASES
         </div>
 
         <div class="tabBtn" data-tab="upgrade" data-index="1">
           <svg viewBox="0 0 24 24" fill="none">
             <path d="M12 2.8l2.9 5.9 6.5.9-4.7 4.6 1.1 6.4-5.8-3.1-5.8 3.1 1.1-6.4-4.7-4.6 6.5-.9L12 2.8Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
           </svg>
-          TASKS
+          UPGRADE
         </div>
 
-        <div class="tabBtn" data-tab="top" data-index="2">
+        <div class="tabBtn" data-tab="tasks" data-index="2">
           <svg viewBox="0 0 24 24" fill="none">
-            <path d="M7 20V11M12 20V4M17 20v-7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+            <path d="M7 7h10M7 12h10M7 17h7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+            <path d="M4.5 7.5l1 1 2-2M4.5 12.5l1 1 2-2M4.5 17.5l1 1 2-2" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
-          TOP
+          TASKS
         </div>
 
         <div class="tabBtn" data-tab="inv" data-index="3">
@@ -1069,7 +1240,7 @@
             <path d="M6 7.5h12l-1 13.2a1.7 1.7 0 0 1-1.7 1.6H8.7A1.7 1.7 0 0 1 7 20.7L6 7.5Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
             <path d="M9 7.5V6a3 3 0 0 1 6 0v1.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
           </svg>
-          BOOST
+          INVENTORY
         </div>
       </div>
     </div>
@@ -1087,55 +1258,64 @@
         </div>
       </div>
 
-      <div class="casePreview">
-        <div class="bigImg" id="modalBigImg"></div>
-        <div class="name" id="modalName">CASE</div>
-        <div class="desc" id="modalDesc">Открой кейс — получи подарок в инвентарь.</div>
-      </div>
+      <div class="modalScroll">
+        <div class="casePreview">
+          <div class="bigImg" id="modalBigImg"></div>
+          <div class="name" id="modalName">CASE</div>
+          <div class="desc" id="modalDesc">Открой кейс — получи подарок в инвентарь.</div>
+        </div>
 
-      <div class="chooser">
-        <div class="pillRow">
-          <div>How many cases?</div>
-          <div style="display:flex; align-items:center; gap:6px; color:rgba(255,255,255,.8)">
-            <span class="star"></span><span id="modalPrice">0</span>
+        <div class="chooser">
+          <div class="pillRow">
+            <div>How many cases?</div>
+            <div class="starRow">
+              <img class="starI" id="starIconModal" alt="★">
+              <span class="val" id="modalPrice">0</span>
+            </div>
+          </div>
+
+          <div class="countPills" id="countPills">
+            <div class="pill active" data-n="1">1</div>
+            <div class="pill" data-n="2">2</div>
+            <div class="pill" data-n="3">3</div>
+            <div class="pill" data-n="4">4</div>
+            <div class="pill" data-n="5">5</div>
           </div>
         </div>
 
-        <div class="countPills" id="countPills">
-          <div class="pill active" data-n="1">1</div>
-          <div class="pill" data-n="2">2</div>
-          <div class="pill" data-n="3">3</div>
-          <div class="pill" data-n="4">4</div>
-          <div class="pill" data-n="5">5</div>
-        </div>
-      </div>
-
-      <div class="rouletteWrap">
-        <div class="rouletteTop">
-          <span>roulette</span>
-          <span style="color:rgba(255,255,255,.65)" id="rouletteHint">Нажми “Open case”</span>
-        </div>
-        <div class="track">
-          <div class="centerLine"></div>
-          <div class="reel" id="reel"></div>
-        </div>
-      </div>
-
-      <div class="resultToast" id="resultToast">
-        <div class="resultLeft">
-          <div class="resImg" id="resImg"></div>
-          <div class="t">
-            <b id="resName">Gift</b>
-            <span><span class="star"></span><span id="resValue">0</span> • добавлено в инвентарь</span>
+        <div class="rouletteWrap">
+          <div class="rouletteTop">
+            <span>roulette</span>
+            <span style="color:rgba(255,255,255,.65)" id="rouletteHint">Нажми “Open case”</span>
+          </div>
+          <div class="track">
+            <div class="centerLine"></div>
+            <div class="reel" id="reel"></div>
           </div>
         </div>
-        <div class="tagWin good" id="resTag"><span>✔</span><span>WIN</span></div>
-      </div>
 
-      <div style="padding: 0 14px 14px;">
-        <button class="btn" id="btnOpenCase"><span>Open case</span> <span class="star"></span><span id="btnCost">0</span></button>
-        <div class="sep"></div>
-        <button class="btn ghost" id="btnShowContents">Показать содержимое</button>
+        <div class="resultToast" id="resultToast">
+          <div class="resultLeft">
+            <div class="resImg" id="resImg"></div>
+            <div class="t">
+              <b id="resName">Gift</b>
+              <span>
+                <img class="starI" id="starIconRes" alt="★"><span id="resValue">0</span>
+                • добавлено в инвентарь
+              </span>
+            </div>
+          </div>
+          <div class="tagWin good" id="resTag"><span>✔</span><span>WIN</span></div>
+        </div>
+
+        <div style="padding: 0 14px 14px;">
+          <button class="btn" id="btnOpenCase">
+            <span>Open case</span>
+            <img class="starI" id="starIconBtn" alt="★"><span id="btnCost">0</span>
+          </button>
+          <div class="sep"></div>
+          <button class="btn ghost" id="btnShowContents">Показать содержимое</button>
+        </div>
       </div>
     </div>
   </div>
@@ -1151,14 +1331,16 @@
           </svg>
         </div>
       </div>
-      <div class="list" id="contentsList"></div>
-      <div style="padding:0 14px 14px;">
-        <button class="btn ghost" id="closeContentsBtn">Закрыть</button>
+      <div class="modalScroll">
+        <div class="list" id="contentsList"></div>
+        <div style="padding:0 14px 14px;">
+          <button class="btn ghost" id="closeContentsBtn">Закрыть</button>
+        </div>
       </div>
     </div>
   </div>
 
-  <!-- Add Stars Modal -->
+  <!-- Add Stars Modal (REAL openInvoice by links) -->
   <div class="overlay" id="addStarsModal">
     <div class="modal" role="dialog" aria-modal="true">
       <div class="modalHead">
@@ -1170,21 +1352,22 @@
         </div>
       </div>
 
-      <div class="presetRow" id="presetRow">
-        <div class="preset" data-v="10">10</div>
-        <div class="preset" data-v="50">50</div>
-        <div class="preset active" data-v="100">100</div>
-        <div class="preset" data-v="500">500</div>
-        <div class="preset" data-v="5000">5000</div>
-      </div>
+      <div class="modalScroll">
+        <div class="presetRow" id="presetRow">
+          <div class="preset" data-v="10">10</div>
+          <div class="preset" data-v="50">50</div>
+          <div class="preset active" data-v="100">100</div>
+          <div class="preset" data-v="500">500</div>
+          <div class="preset" data-v="5000">5000</div>
+        </div>
 
-      <div class="inputWrap">
-        <input class="input" id="starsInput" inputmode="numeric" placeholder="Сумма (например 100)" value="100" />
-        <button class="btn" id="btnApplyStars" style="width: 150px;">Добавить</button>
-      </div>
+        <div class="smallHint" style="margin-top:10px">
+          Выбери сумму — откроется <b>Telegram invoice</b>. После оплаты баланс обновится автоматически.
+        </div>
 
-      <div style="padding:0 14px 14px;">
-        <button class="btn ghost" id="btnCancelStars">Отмена</button>
+        <div style="padding:0 14px 14px;">
+          <button class="btn ghost" id="btnCancelStars">Закрыть</button>
+        </div>
       </div>
     </div>
   </div>
@@ -1200,7 +1383,34 @@
           </svg>
         </div>
       </div>
-      <div class="sheetBody" id="pickerBody"></div>
+      <div class="modalScroll">
+        <div class="sheetBody" id="pickerBody"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Withdraw Modal -->
+  <div class="overlay" id="withdrawModal">
+    <div class="modal" role="dialog" aria-modal="true">
+      <div class="modalHead">
+        <div class="h" id="withdrawTitle">WITHDRAW</div>
+        <div class="xbtn" id="closeWithdraw">
+          <svg viewBox="0 0 24 24" fill="none">
+            <path d="M7 7l10 10M17 7 7 17" stroke="rgba(255,255,255,.9)" stroke-width="2.2" stroke-linecap="round"/>
+          </svg>
+        </div>
+      </div>
+      <div class="modalScroll">
+        <div class="smallHint" id="withdrawDesc" style="margin-top:12px">
+          Скопируй код и отправь боту в чат.
+        </div>
+        <div class="codeBox" id="withdrawCode">CODE</div>
+        <div style="padding: 12px 14px 14px;">
+          <button class="btn" id="btnCopyCode">Скопировать код</button>
+          <div class="sep"></div>
+          <button class="btn ghost" id="btnCloseWithdraw2">Закрыть</button>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -1214,6 +1424,15 @@
     try{ tg?.ready(); tg?.expand(); }catch(e){}
 
     /********************
+     * CONFIG: put your PNG here
+     ********************/
+    const STAR_PNG = "stars-DBKMczxe.png"; // <-- вставь свой PNG (путь/имя)
+    document.getElementById("starIconTop").src = STAR_PNG;
+    document.getElementById("starIconModal").src = STAR_PNG;
+    document.getElementById("starIconBtn").src = STAR_PNG;
+    document.getElementById("starIconRes").src = STAR_PNG;
+
+    /********************
      * Economy / Edge tuning
      ********************/
     const CASE_EDGE_LOW_BOOST = 1.22;  // кейсы: чаще дешёвые
@@ -1221,77 +1440,123 @@
     const SELL_PAYOUT = 0.80;          // продажа: 80%
 
     /********************
+     * Tasks / Energy (visual only)
+     ********************/
+    const ENERGY_PER_TASK = 1;           // 1⚡ за задание
+    const ENERGY_VISUAL_BONUS = 0.05;    // +5% (визуально) к шансу за 1⚡
+
+    /********************
      * Storage
      ********************/
     const STORAGE = {
-      stars: "gb3_stars",
-      inv: "gb3_inventory"
+      stars: "gb_final_stars",
+      inv: "gb_final_inventory",
+      energy: "gb_final_energy",
+      tasksDone: "gb_final_tasks_done",      // {taskId:true}
+      taskPending: "gb_final_task_pending"   // taskId
     };
 
     /********************
-     * Assets (замени пути на свои)
+     * REAL payment links for openInvoice (you will paste links)
+     ********************/
+    const INVOICE_LINKS = {
+      10:   "PASTE_OPENINVOICE_LINK_10",
+      50:   "PASTE_OPENINVOICE_LINK_50",
+      100:  "PASTE_OPENINVOICE_LINK_100",
+      500:  "PASTE_OPENINVOICE_LINK_500",
+      5000: "https://t.me/$QYGD-2BXyEmoFAAAsczOIEMbHFo"
+    };
+
+    /********************
+     * Gifts (REPLACED)
+     * IMPORTANT: replace img paths with yours
      ********************/
     const GIFTS = [
-      { id:"pin",   name:"Telegram Pin",        emoji:"📎", value:3000, img:"IMG_5264.PNG" },
-      { id:"lock",  name:"Heart Locket",       emoji:"💙", value:1799, img:"img/gifts/lock.png" },
-      { id:"watch", name:"Golden Watch",       emoji:"⌚", value:980,  img:"img/gifts/watch.png" },
-      { id:"cap",   name:"Durov’s Cap",        emoji:"🧢", value:775,  img:"img/gifts/cap.png" },
-      { id:"gem",   name:"Blue Gem",           emoji:"💎", value:462,  img:"img/gifts/gem.png" },
-      { id:"peach", name:"Precious Peach",     emoji:"🍑", value:480,  img:"img/gifts/peach.png" },
-      { id:"ring",  name:"Shiny Ring",         emoji:"💍", value:260,  img:"img/gifts/ring.png" },
-      { id:"jack",  name:"Jack-in-the-Box",    emoji:"🎁", value:231,  img:"img/gifts/jack.png" },
-      { id:"candle",name:"B-Day Candle",       emoji:"🎂", value:149,  img:"img/gifts/candle.png" },
-      { id:"muscle",name:"Power Arm",          emoji:"💪", value:120,  img:"img/gifts/muscle.png" },
-      { id:"bear",  name:"Soft Toy",           emoji:"🧸", value:90,   img:"img/gifts/bear.png" },
-      { id:"plane", name:"Paper Plane Charm",  emoji:"✈️", value:85,   img:"img/gifts/plane.png" },
-      { id:"duck",  name:"Little Duck",        emoji:"🦆", value:55,   img:"img/gifts/duck.png" },
-      { id:"cookie",name:"Lucky Cookie",       emoji:"🍪", value:35,   img:"img/gifts/cookie.png" }
+      { id:"toy_bear",     name:"Toy Bear",      emoji:"🧸", value:15,  img:"IMG_5264.PNG" },
+      { id:"heart",        name:"Heart",         emoji:"❤️", value:15,  img:"img/gifts/heart.png" },
+      { id:"gift",         name:"Gift",          emoji:"🎁", value:25,  img:"img/gifts/gift.png" },
+      { id:"rocket",       name:"Rocket",        emoji:"🚀", value:50,  img:"img/gifts/rocket.png" },
+      { id:"bouquet",      name:"Bouquet",       emoji:"💐", value:50,  img:"img/gifts/bouquet.png" },
+      { id:"diamond",      name:"Diamond",       emoji:"💎", value:100, img:"img/gifts/diamond.png" },
+      { id:"lol_pop",      name:"Lol pop",       emoji:"🍭", value:235, img:"img/gifts/lol_pop.png" },
+      { id:"instant_ramen",name:"Instant Ramen", emoji:"🍜", value:250, img:"img/gifts/instant_ramen.png" },
+      { id:"ice_cream",    name:"Ice Cream",     emoji:"🍦", value:265, img:"img/gifts/ice_cream.png" },
+      { id:"lunar_snake",  name:"Lunar Snake",   emoji:"🐍", value:265, img:"img/gifts/lunar_snake.png" },
+      { id:"easter_egg",   name:"Easter Egg",    emoji:"🥚", value:385, img:"img/gifts/easter_egg.png" },
+      { id:"input_key",    name:"Input Key",     emoji:"🔑", value:465, img:"img/gifts/input_key.png" },
+      { id:"love_candle",  name:"Love Candle",   emoji:"🕯️", value:935, img:"img/gifts/love_candle.png" },
+      { id:"top_hat",      name:"Top Hat",       emoji:"🎩", value:925, img:"img/gifts/top_hat.png" }
     ];
 
+    /********************
+     * Cases (you can change prices/images if needed)
+     ********************/
     const CASES = [
-      { id:"durov_mining", title:"Durov Mining", price:272, badge:"LIMITED", emoji:"⛏️", img:"IMG_5264.PNG",
-        desc:"Лимитный кейс.",
-        pool:[ {gift:"cookie",w:28},{gift:"duck",w:22},{gift:"plane",w:14},{gift:"bear",w:11},{gift:"muscle",w:9},{gift:"ring",w:6},{gift:"gem",w:4},{gift:"cap",w:3},{gift:"watch",w:2},{gift:"pin",w:1} ]
+      { id:"quick", title:"Quick Start", price:55, badge:"HOT", emoji:"⚡", img:"IMG_5264.PNG",
+        desc:"Быстрый кейс для старта.",
+        pool:[ {gift:"toy_bear",w:24},{gift:"heart",w:24},{gift:"gift",w:20},{gift:"rocket",w:12},{gift:"bouquet",w:12},{gift:"diamond",w:8} ]
       },
-      { id:"champion", title:"Champion", price:452, badge:"LIMITED", emoji:"🥊", img:"img/cases/champion.png",
-        desc:"Хороший кейс.",
-        pool:[ {gift:"cookie",w:18},{gift:"duck",w:18},{gift:"plane",w:12},{gift:"bear",w:10},{gift:"candle",w:10},{gift:"jack",w:9},{gift:"ring",w:7},{gift:"gem",w:6},{gift:"cap",w:4},{gift:"watch",w:3},{gift:"lock",w:2},{gift:"pin",w:1} ]
+      { id:"blue", title:"Blue Drop", price:120, badge:"NEW", emoji:"💧", img:"img/cases/blue.png",
+        desc:"Уклон в средние призы.",
+        pool:[ {gift:"toy_bear",w:18},{gift:"heart",w:18},{gift:"gift",w:18},{gift:"rocket",w:14},{gift:"bouquet",w:14},{gift:"diamond",w:10},{gift:"lol_pop",w:8} ]
       },
-      { id:"cemetery", title:"The Cemetery of Secrets", price:1104, badge:"LIMITED", emoji:"🕯️", img:"img/cases/cemetery.png", big:true,
+      { id:"sweet", title:"Sweet Box", price:190, badge:"NEW", emoji:"🍭", img:"img/cases/sweet.png",
+        desc:"Сладкая тема.",
+        pool:[ {gift:"toy_bear",w:16},{gift:"heart",w:16},{gift:"gift",w:16},{gift:"rocket",w:12},{gift:"bouquet",w:12},{gift:"diamond",w:10},{gift:"lol_pop",w:9},{gift:"instant_ramen",w:9} ]
+      },
+      { id:"classic", title:"Classic", price:240, badge:"NEW", emoji:"🎁", img:"img/cases/classic.png",
+        desc:"Балансированный кейс.",
+        pool:[ {gift:"toy_bear",w:14},{gift:"heart",w:14},{gift:"gift",w:16},{gift:"rocket",w:12},{gift:"bouquet",w:12},{gift:"diamond",w:10},{gift:"lol_pop",w:8},{gift:"instant_ramen",w:7},{gift:"ice_cream",w:7} ]
+      },
+      { id:"boost", title:"Booster", price:360, badge:"LIMITED", emoji:"🚀", img:"img/cases/booster.png",
+        desc:"Шанс на дорогие выше.",
+        pool:[ {gift:"gift",w:14},{gift:"rocket",w:13},{gift:"bouquet",w:13},{gift:"diamond",w:12},{gift:"lol_pop",w:10},{gift:"instant_ramen",w:9},{gift:"ice_cream",w:8},{gift:"lunar_snake",w:8},{gift:"easter_egg",w:6},{gift:"input_key",w:4},{gift:"top_hat",w:2},{gift:"love_candle",w:1} ]
+      },
+      { id:"rare", title:"Rare Night", price:680, badge:"HOT", emoji:"🌙", img:"img/cases/rare.png",
+        desc:"Редкие и дорогие.",
+        pool:[ {gift:"diamond",w:16},{gift:"lol_pop",w:12},{gift:"instant_ramen",w:12},{gift:"ice_cream",w:11},{gift:"lunar_snake",w:11},{gift:"easter_egg",w:9},{gift:"input_key",w:7},{gift:"top_hat",w:3},{gift:"love_candle",w:3} ]
+      },
+      { id:"key", title:"Key Hunter", price:452, badge:"LIMITED", emoji:"🔑", img:"img/cases/key.png",
+        desc:"Уклон в Input Key.",
+        pool:[ {gift:"gift",w:14},{gift:"rocket",w:12},{gift:"bouquet",w:12},{gift:"diamond",w:12},{gift:"ice_cream",w:10},{gift:"lunar_snake",w:10},{gift:"easter_egg",w:9},{gift:"input_key",w:7},{gift:"top_hat",w:3},{gift:"love_candle",w:2} ]
+      },
+      { id:"big", title:"The Big One", price:1104, badge:"LIMITED", emoji:"👑", img:"img/cases/big.png", big:true,
         desc:"Дорогой кейс.",
-        pool:[ {gift:"duck",w:10},{gift:"candle",w:12},{gift:"jack",w:10},{gift:"ring",w:10},{gift:"gem",w:10},{gift:"cap",w:9},{gift:"watch",w:8},{gift:"lock",w:7},{gift:"pin",w:4} ]
+        pool:[ {gift:"diamond",w:14},{gift:"lol_pop",w:12},{gift:"instant_ramen",w:12},{gift:"ice_cream",w:11},{gift:"lunar_snake",w:11},{gift:"easter_egg",w:10},{gift:"input_key",w:9},{gift:"top_hat",w:6},{gift:"love_candle",w:5} ]
       },
-      { id:"pepe_all_in", title:"PEPE ALL IN", price:55, badge:"HOT", emoji:"🐸", img:"img/cases/pepe.png",
-        desc:"Быстрый кейс.",
-        pool:[ {gift:"cookie",w:40},{gift:"duck",w:26},{gift:"plane",w:16},{gift:"bear",w:10},{gift:"muscle",w:6},{gift:"ring",w:2} ]
-      },
-      { id:"blue_drop", title:"Blue Drop", price:120, badge:"NEW", emoji:"💧", img:"img/cases/blue_drop.png",
-        desc:"Неплохой фарм.",
-        pool:[ {gift:"cookie",w:34},{gift:"duck",w:24},{gift:"plane",w:16},{gift:"bear",w:12},{gift:"candle",w:8},{gift:"jack",w:4},{gift:"ring",w:2} ]
-      },
-      { id:"durov_classic", title:"Durov Classic", price:360, badge:"LIMITED", emoji:"🧢", img:"img/cases/durov_classic.png",
-        desc:"Классика.",
-        pool:[ {gift:"duck",w:20},{gift:"bear",w:14},{gift:"candle",w:12},{gift:"jack",w:10},{gift:"ring",w:10},{gift:"gem",w:8},{gift:"cap",w:6},{gift:"watch",w:3},{gift:"lock",w:2},{gift:"pin",w:1} ]
-      },
-      { id:"gold_rush", title:"Gold Rush", price:680, badge:"HOT", emoji:"✨", img:"img/cases/gold_rush.png",
-        desc:"Ставка выше.",
-        pool:[ {gift:"candle",w:16},{gift:"jack",w:14},{gift:"ring",w:12},{gift:"gem",w:12},{gift:"cap",w:10},{gift:"watch",w:8},{gift:"lock",w:6},{gift:"pin",w:3} ]
-      },
-      { id:"telegram_hearts", title:"Telegram Hearts", price:240, badge:"NEW", emoji:"💙", img:"img/cases/hearts.png",
-        desc:"Уклон в locket.",
-        pool:[ {gift:"cookie",w:20},{gift:"duck",w:20},{gift:"bear",w:14},{gift:"candle",w:12},{gift:"ring",w:10},{gift:"gem",w:8},{gift:"lock",w:6},{gift:"watch",w:3},{gift:"pin",w:1} ]
-      },
-      { id:"skyline", title:"Skyline", price:190, badge:"NEW", emoji:"🌌", img:"img/cases/skyline.png",
-        desc:"Лёгкий кейс.",
-        pool:[ {gift:"cookie",w:30},{gift:"duck",w:22},{gift:"plane",w:18},{gift:"bear",w:12},{gift:"muscle",w:10},{gift:"candle",w:6},{gift:"ring",w:2} ]
+      { id:"hat", title:"Hat & Candle", price:272, badge:"LIMITED", emoji:"🎩", img:"img/cases/hat.png",
+        desc:"Уклон в Top Hat / Love Candle.",
+        pool:[ {gift:"diamond",w:16},{gift:"easter_egg",w:12},{gift:"input_key",w:10},{gift:"top_hat",w:8},{gift:"love_candle",w:7},{gift:"lol_pop",w:12},{gift:"instant_ramen",w:12},{gift:"ice_cream",w:11} ]
       }
     ];
 
     /********************
+     * Tasks (edit links)
+     ********************/
+    const TASKS = [
+      { id:"join_channel", title:"Join our channel",  icon:"📢", reward:"⚡ +1", url:"https://t.me/your_channel" },
+      { id:"open_site",    title:"Open website",      icon:"🌐", reward:"⚡ +1", url:"https://example.com" },
+      { id:"invite_friend",title:"Invite a friend",   icon:"👥", reward:"⚡ +1", url:"https://t.me/share/url?url=https://t.me/your_bot" }
+    ];
+
+    /********************
+     * Withdraw code prefixes (mapping instruction)
+     * You asked: “потом дашь инструкцыю какие фрагменты кодов пренадлежет тем или иным подаркам”
+     * Вот префиксы: по ним бот сможет понимать подарок.
+     ********************/
+    const WITHDRAW_PREFIX = {
+      toy_bear:"TB", heart:"HT", gift:"GF", rocket:"RC", bouquet:"BQ", diamond:"DM",
+      lol_pop:"LP", instant_ramen:"IR", ice_cream:"IC", lunar_snake:"LS", easter_egg:"EE",
+      input_key:"IK", love_candle:"LC", top_hat:"TH"
+    };
+
+    /********************
      * State
      ********************/
-    let stars = loadNumber(STORAGE.stars, 74.2);
+    let stars = loadNumber(STORAGE.stars, 0);
     let inventory = loadJSON(STORAGE.inv, {}); // {giftId: qty}
+    let energy = loadNumber(STORAGE.energy, 0);
+    let tasksDone = loadJSON(STORAGE.tasksDone, {}); // {taskId:true}
 
     let currentCase = CASES[0];
     let openCount = 1;
@@ -1299,12 +1564,13 @@
     let upgradeFrom = null;
     let upgradeTo = null;
 
-    // для спиннера (угол)
+    // spinner angle
     let spinnerAngle = 0;
 
     /********************
      * DOM
      ********************/
+    const topSub = document.getElementById("topSub");
     const starsValue = document.getElementById("starsValue");
     const casesGrid  = document.getElementById("casesGrid");
     const invGrid = document.getElementById("invGrid");
@@ -1312,7 +1578,7 @@
     const pages = {
       home: document.getElementById("pageHome"),
       upgrade: document.getElementById("pageUpgrade"),
-      top: document.getElementById("pageTop"),
+      tasks: document.getElementById("pageTasks"),
       inv: document.getElementById("pageInv")
     };
 
@@ -1350,8 +1616,6 @@
     const closeAddStars = document.getElementById("closeAddStars");
     const btnCancelStars = document.getElementById("btnCancelStars");
     const presetRow = document.getElementById("presetRow");
-    const starsInput = document.getElementById("starsInput");
-    const btnApplyStars = document.getElementById("btnApplyStars");
 
     // Upgrade
     const pickFromBtn = document.getElementById("pickFromBtn");
@@ -1373,10 +1637,26 @@
     const pickerTitle = document.getElementById("pickerTitle");
     const pickerBody = document.getElementById("pickerBody");
     const pickerClose = document.getElementById("pickerClose");
-    let pickerMode = "from";
 
-    // Sell all
+    // Inventory / profile
+    const ava = document.getElementById("ava");
+    const pname = document.getElementById("pname");
+    const puser = document.getElementById("puser");
+    const energyValue = document.getElementById("energyValue");
     const btnSellAll = document.getElementById("btnSellAll");
+
+    // Tasks
+    const tasksList = document.getElementById("tasksList");
+
+    // Withdraw
+    const withdrawModal = document.getElementById("withdrawModal");
+    const closeWithdraw = document.getElementById("closeWithdraw");
+    const btnCloseWithdraw2 = document.getElementById("btnCloseWithdraw2");
+    const withdrawTitle = document.getElementById("withdrawTitle");
+    const withdrawDesc = document.getElementById("withdrawDesc");
+    const withdrawCode = document.getElementById("withdrawCode");
+    const btnCopyCode = document.getElementById("btnCopyCode");
+    let withdrawGiftId = null;
 
     // Toast
     const toast = document.getElementById("toast");
@@ -1384,9 +1664,12 @@
     /********************
      * Init
      ********************/
+    applyTelegramProfile();
     renderStars();
+    renderEnergy();
     renderCases();
     renderInventory();
+    renderTasks();
     renderUpgrade();
     buildReel(currentCase);
 
@@ -1394,20 +1677,29 @@
     gsap.fromTo(".navBar", {y:12, opacity:0}, {y:0, opacity:1, duration:.5, ease:"power2.out", delay:.05});
     updateNavPill(0, false);
 
-    // place needle on ring radius
     positionNeedle();
 
-    function positionNeedle(){
-      // радиус: половина кольца - отступы
-      const R = 82; // примерно половина 164
-      const ringInset = 12 + 10; // inset + border
-      const radius = R - ringInset + 2; // по центру линии
+    function applyTelegramProfile(){
+      // Telegram does not provide photo URL directly here, so we do initials.
+      const u = tg?.initDataUnsafe?.user || null;
+      const fn = u?.first_name || "User";
+      const ln = u?.last_name || "";
+      const uname = u?.username ? "@"+u.username : "Telegram user";
+      const full = (fn + " " + ln).trim();
 
-      // ставим иголку/треугольник в точку на радиусе (вверх)
-      // spinnerArm вращается вокруг центра, поэтому просто разместим элементы на "север"
+      pname.textContent = full;
+      puser.textContent = uname;
+
+      const initials = (fn?.[0]||"U") + (ln?.[0]||"");
+      ava.textContent = initials.toUpperCase();
+    }
+
+    function positionNeedle(){
+      const R = 84;
+      const ringInset = 12 + 10;
+      const radius = R - ringInset + 2;
       needleDot.style.left = "0px";
       needleDot.style.top = `-${radius}px`;
-
       needleTip.style.left = "0px";
       needleTip.style.top = `-${radius - 14}px`;
     }
@@ -1416,18 +1708,10 @@
      * Top actions
      ********************/
     document.getElementById("btnBack").addEventListener("click", ()=>{
-      try{
-        if(tg?.BackButton){ tg.close(); }
-        else tg?.close?.();
-      }catch(e){
-        // в браузере
-        showToast("Назад");
-      }
+      try{ tg?.close?.(); }catch(e){ showToast("Назад"); }
     });
 
-    document.getElementById("btnAddStars").addEventListener("click", ()=>{
-      openAddStarsModal();
-    });
+    document.getElementById("btnAddStars").addEventListener("click", ()=> openAddStarsModal());
 
     /********************
      * Tabs + pill slide
@@ -1447,6 +1731,12 @@
       const pageEl = pages[tab] || pages.home;
       pageEl.classList.add("active");
 
+      topSub.textContent =
+        tab==="home" ? "Cases" :
+        tab==="upgrade" ? "Upgrade" :
+        tab==="tasks" ? "Tasks" :
+        tab==="inv" ? "Inventory" : "";
+
       updateNavPill(idx, true);
 
       gsap.fromTo(pageEl, {opacity:0, y:10}, {opacity:1, y:0, duration:.22, ease:"power2.out"});
@@ -1454,6 +1744,7 @@
 
       renderInventory();
       renderUpgrade();
+      renderTasks();
     }
 
     function updateNavPill(index, animate=true){
@@ -1501,7 +1792,10 @@
           <div class="caseMeta">
             <div class="caseName">${escapeHtml(c.title)}</div>
             <div class="priceRow">
-              <div class="left"><span class="star"></span><span>${formatStars(c.price)}</span></div>
+              <div class="starRow">
+                <img class="starI" src="${escapeAttr(STAR_PNG)}" alt="★">
+                <span class="val">${formatStars(c.price)}</span>
+              </div>
               <div class="miniTag">Open</div>
             </div>
           </div>
@@ -1530,9 +1824,7 @@
       pulse("#countPills");
     });
 
-    btnShowContents.addEventListener("click", ()=>{
-      openContentsModal(currentCase);
-    });
+    btnShowContents.addEventListener("click", ()=> openContentsModal(currentCase));
 
     btnOpenCase.addEventListener("click", async ()=>{
       const totalCost = currentCase.price * openCount;
@@ -1682,7 +1974,7 @@
         .sort((a,b)=> b.value - a.value);
 
       if(entries.length===0){
-        invGrid.innerHTML = `<div class="hint" style="grid-column: span 2; text-align:center;">Инвентарь пуст</div>`;
+        invGrid.innerHTML = `<div class="upHint" style="grid-column: span 2;">Инвентарь пуст</div>`;
       } else {
         invGrid.innerHTML = "";
         entries.forEach(it=>{
@@ -1691,7 +1983,10 @@
           el.innerHTML = `
             <div class="giftTop">
               <div class="giftQty">x${it.qty}</div>
-              <div class="giftPrice"><span class="star"></span>${formatStars(it.value)}</div>
+              <div class="starRow">
+                <img class="starI" src="${escapeAttr(STAR_PNG)}" alt="★">
+                <span class="val">${formatStars(it.value)}</span>
+              </div>
             </div>
 
             <div class="giftImg">
@@ -1717,9 +2012,11 @@
           const id = b.dataset.id;
           if(!id) return;
           if(act === "sell") sellGift(id);
-          if(act === "withdraw") withdrawGift(id);
+          if(act === "withdraw") openWithdrawModal(id);
         });
       });
+
+      renderEnergy();
     }
 
     function sellGift(giftId){
@@ -1739,15 +2036,6 @@
 
       showToast(`+${formatStars(payout)}★`);
       pulse(".wallet");
-    }
-
-    function withdrawGift(giftId){
-      const qty = inventory[giftId] || 0;
-      if(qty <= 0) return;
-
-      const g = getGift(giftId);
-      showToast(`Вывести: ${g.name}`);
-      pulse(".giftCard");
     }
 
     btnSellAll.addEventListener("click", ()=>{
@@ -1793,14 +2081,55 @@
     }
 
     /********************
-     * Upgrade (кольцо + синяя полоса WIN)
+     * Withdraw modal (generate code)
+     ********************/
+    function openWithdrawModal(giftId){
+      const qty = inventory[giftId] || 0;
+      if(qty<=0) return;
+
+      withdrawGiftId = giftId;
+      const g = getGift(giftId);
+
+      const prefix = WITHDRAW_PREFIX[giftId] || "XX";
+      const code = `${prefix}-${randCode(26)}-${randCode(10)}`;
+
+      withdrawTitle.textContent = `WITHDRAW • ${g.name}`.toUpperCase();
+      withdrawDesc.innerHTML = `Скопируй код и отправь боту в чат.<br>Подарок: <b>${escapeHtml(g.name)}</b>`;
+      withdrawCode.textContent = code;
+
+      showOverlay(withdrawModal);
+      gsap.fromTo(withdrawModal.querySelector(".modal"), {y:20, opacity:0}, {y:0, opacity:1, duration:.20, ease:"power2.out"});
+    }
+
+    closeWithdraw.addEventListener("click", ()=>hideOverlay(withdrawModal));
+    btnCloseWithdraw2.addEventListener("click", ()=>hideOverlay(withdrawModal));
+    withdrawModal.addEventListener("click", (e)=>{ if(e.target===withdrawModal) hideOverlay(withdrawModal); });
+
+    btnCopyCode.addEventListener("click", async ()=>{
+      const txt = withdrawCode.textContent || "";
+      try{
+        await navigator.clipboard.writeText(txt);
+        showToast("Код скопирован");
+      }catch(e){
+        showToast("Не удалось скопировать");
+      }
+      pulse(withdrawCode);
+    });
+
+    function randCode(n){
+      const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789abcdefghjkmnpqrstuvwxyz";
+      let out="";
+      for(let i=0;i<n;i++) out += chars[Math.floor(Math.random()*chars.length)];
+      return out;
+    }
+
+    /********************
+     * Upgrade
      ********************/
     pickFromBtn.addEventListener("click", ()=>{
-      pickerMode = "from";
       openPickerFromInventory();
     });
     pickToBtn.addEventListener("click", ()=>{
-      pickerMode = "to";
       openPickerFromCatalog();
     });
 
@@ -1813,8 +2142,8 @@
     });
 
     btnUpgrade.addEventListener("click", async ()=>{
-      const chance = calcChance();
-      if(!upgradeFrom || !upgradeTo || chance<=0){
+      const baseChance = calcChanceBase();  // real chance (without energy)
+      if(!upgradeFrom || !upgradeTo || baseChance<=0){
         wiggle("#upgradeHint");
         showToast("Выбери исходный и цель");
         return;
@@ -1828,37 +2157,37 @@
       btnUpgrade.disabled = true;
       upgradeResultNote.style.display = "none";
 
-      // WIN зона: 0..winDeg (сверху, по часовой)
-      const winDeg = clamp(chance, 1.2, 95) * 3.6;
+      // Визуальный шанс (с энергией)
+      const visualChance = calcChanceVisual(baseChance);
+      const winDeg = clamp(visualChance, 1.2, 95) * 3.6;
 
-      // решаем результат
+      // IMPORTANT: outcome uses BASE chance only (as you asked: “только визуально”)
       const roll = Math.random()*100;
-      const success = roll < chance;
+      const success = roll < baseChance;
 
-      // целевой угол: если win -> попадает в синюю дугу, иначе -> за её пределы
       const targetAngle = success
         ? randFloat(6, Math.max(8, winDeg - 6))
         : randFloat(Math.min(360 - 6, winDeg + 6), 360 - 6);
 
-      // плавное вращение несколько кругов
       const spins = 4 + randInt(0,2);
       const final = (spinnerAngle % 360) + spins*360 + targetAngle;
       spinnerAngle = final;
 
       await gsapToPromise(spinnerArm, { rotation: final, duration: 1.35, ease:"power3.out" });
 
-      // расход: 1 исходный всегда
       removeFromInv(upgradeFrom, 1);
 
       if(success){
         addToInv(upgradeTo, 1);
         upgradeResultNote.style.display = "block";
         upgradeResultNote.innerHTML = `✅ Успех! <b>${escapeHtml(getGift(upgradeTo).name)}</b> добавлен в инвентарь.`;
+        upgradeResultNote.style.borderColor = "rgba(37,227,154,.22)";
         pulse("#slotTo");
         showToast("WIN");
       }else{
         upgradeResultNote.style.display = "block";
         upgradeResultNote.innerHTML = `❌ Неудача. Исходный подарок сгорел.`;
+        upgradeResultNote.style.borderColor = "rgba(255,74,106,.20)";
         wiggle("#slotFrom");
         showToast("LOSE");
       }
@@ -1879,7 +2208,7 @@
           <div class="pImg">${giftThumbHTML(g, 44)}</div>
           <div class="info">
             <b>${escapeHtml(g.name)}</b>
-            <span><span class="star"></span>${formatStars(g.value)} • <span style="opacity:.75">x${qty}</span></span>
+            <span><img class="starI" src="${escapeAttr(STAR_PNG)}" alt="★">${formatStars(g.value)} • <span style="opacity:.75">x${qty}</span></span>
           </div>
         `;
       }else{
@@ -1898,7 +2227,7 @@
           <div class="pImg">${giftThumbHTML(g, 44)}</div>
           <div class="info">
             <b>${escapeHtml(g.name)}</b>
-            <span><span class="star"></span>${formatStars(g.value)} • <span style="opacity:.75">цель</span></span>
+            <span><img class="starI" src="${escapeAttr(STAR_PNG)}" alt="★">${formatStars(g.value)} • <span style="opacity:.75">цель</span></span>
           </div>
         `;
       }else{
@@ -1911,19 +2240,21 @@
         `;
       }
 
-      const chance = calcChance();
-      setRingChance(chance);
+      const baseChance = calcChanceBase();
+      const visualChance = calcChanceVisual(baseChance);
+      setRingChance(visualChance);
 
       if(upgradeFrom && upgradeTo){
-        upgradeHint.innerHTML = `Шанс: <b>${chance.toFixed(2)}%</b>. Попади стрелкой на <b>синюю</b> полосу.`;
+        upgradeHint.innerHTML =
+          `Base шанс: <b>${baseChance.toFixed(2)}%</b> · Визуально: <b>${visualChance.toFixed(2)}%</b> (⚡ x${energy})`;
         btnUpgrade.disabled = false;
       }else{
-        upgradeHint.innerHTML = `Выбери <b>исходный</b> подарок из инвентаря и <b>цель</b>.`;
+        upgradeHint.innerHTML = `Выбери <b>исходный</b> подарок и <b>цель</b>.`;
         btnUpgrade.disabled = true;
       }
     }
 
-    function calcChance(){
+    function calcChanceBase(){
       if(!upgradeFrom || !upgradeTo) return 0;
       const a = getGift(upgradeFrom).value;
       const b = getGift(upgradeTo).value;
@@ -1939,17 +2270,19 @@
       return raw;
     }
 
+    function calcChanceVisual(base){
+      // visual only: +5% per energy (multiplicative)
+      const mult = 1 + (energy * ENERGY_VISUAL_BONUS);
+      return clamp(base * mult, 1.2, 95);
+    }
+
     function setRingChance(percent){
       chanceText.textContent = `${percent.toFixed(2)}%`;
-
       const winDeg = clamp(percent, 1.2, 95) * 3.6;
 
-      // маска conic-gradient: черное = видно, прозрачное = скрыто
-      // WIN дуга начинается сверху (0deg)
       winArc.style.webkitMask = `conic-gradient(#000 0deg, #000 ${winDeg}deg, transparent ${winDeg}deg 360deg)`;
       winArc.style.mask = `conic-gradient(#000 0deg, #000 ${winDeg}deg, transparent ${winDeg}deg 360deg)`;
 
-      // чуть меняем яркость по шансу
       const o = clamp(0.25 + percent/100 * 0.55, 0.25, 0.85);
       winArc.style.opacity = o;
     }
@@ -1965,7 +2298,7 @@
         return;
       }
 
-      pickerTitle.textContent = "Выбери исходный";
+      pickerTitle.textContent = "Выбери FROM";
       pickerBody.innerHTML = "";
       list
         .map(([id,qty])=>({ ...getGift(id), qty }))
@@ -1979,7 +2312,7 @@
               <div class="pr">x${g.qty}</div>
             </div>
             <div class="nm">${escapeHtml(g.name)}</div>
-            <div class="sub"><span class="star"></span>${formatStars(g.value)}</div>
+            <div class="sub"><img class="starI" src="${escapeAttr(STAR_PNG)}" alt="★">${formatStars(g.value)}</div>
           `;
           el.addEventListener("click", ()=>{
             upgradeFrom = g.id;
@@ -1995,7 +2328,7 @@
     }
 
     function openPickerFromCatalog(){
-      pickerTitle.textContent = "Выбери цель";
+      pickerTitle.textContent = "Выбери TO";
       pickerBody.innerHTML = "";
       GIFTS
         .slice()
@@ -2006,7 +2339,7 @@
           el.innerHTML = `
             <div class="row">
               <div class="pImg">${giftThumbHTML(g, 40)}</div>
-              <div class="pr"><span class="star"></span>${formatStars(g.value)}</div>
+              <div class="pr"><img class="starI" src="${escapeAttr(STAR_PNG)}" alt="★">${formatStars(g.value)}</div>
             </div>
             <div class="nm">${escapeHtml(g.name)}</div>
             <div class="sub">id: ${escapeHtml(g.id)}</div>
@@ -2024,11 +2357,82 @@
       gsap.fromTo(pickerOverlay.querySelector(".modal"), {y:20, opacity:0}, {y:0, opacity:1, duration:.20, ease:"power2.out"});
     }
 
-    function closePicker(){
-      hideOverlay(pickerOverlay);
-    }
+    function closePicker(){ hideOverlay(pickerOverlay); }
     pickerClose.addEventListener("click", closePicker);
     pickerOverlay.addEventListener("click", (e)=>{ if(e.target === pickerOverlay) closePicker(); });
+
+    /********************
+     * Tasks
+     ********************/
+    function renderTasks(){
+      tasksList.innerHTML = "";
+      TASKS.forEach(t=>{
+        const done = !!tasksDone[t.id];
+        const el = document.createElement("div");
+        el.className = "taskCard";
+        el.innerHTML = `
+          <div class="taskLeft">
+            <div class="taskIcon">${escapeHtml(t.icon)}</div>
+            <div class="taskMeta">
+              <p class="taskTitle">${escapeHtml(t.title)}</p>
+              <p class="taskSub"><span>${escapeHtml(t.reward)}</span><span style="opacity:.6">•</span><span>${done ? "Completed" : "Not completed"}</span></p>
+            </div>
+          </div>
+          <button class="taskBtn ${done ? "done" : ""}" data-id="${escapeAttr(t.id)}">
+            ${done ? "Done" : "Start"}
+          </button>
+        `;
+        const btn = el.querySelector(".taskBtn");
+        btn.addEventListener("click", ()=>{
+          if(tasksDone[t.id]) return;
+          startTask(t.id, t.url);
+        });
+        tasksList.appendChild(el);
+      });
+    }
+
+    function startTask(taskId, url){
+      // mark pending, open link
+      localStorage.setItem(STORAGE.taskPending, taskId);
+      showToast("Открываю задание…");
+      try{
+        // best UX inside Telegram
+        if(tg?.openLink) tg.openLink(url, {try_instant_view:false});
+        else window.open(url, "_blank");
+      }catch(e){
+        window.open(url, "_blank");
+      }
+    }
+
+    // When user comes back to app -> give reward once
+    document.addEventListener("visibilitychange", ()=>{
+      if(document.visibilityState !== "visible") return;
+      tryCompletePendingTask();
+    });
+
+    function tryCompletePendingTask(){
+      const pending = localStorage.getItem(STORAGE.taskPending);
+      if(!pending) return;
+      if(tasksDone[pending]){ localStorage.removeItem(STORAGE.taskPending); return; }
+
+      tasksDone[pending] = true;
+      saveJSON(STORAGE.tasksDone, tasksDone);
+      localStorage.removeItem(STORAGE.taskPending);
+
+      energy = Number(energy||0) + ENERGY_PER_TASK;
+      saveNumber(STORAGE.energy, energy);
+
+      renderEnergy();
+      renderTasks();
+      renderUpgrade();
+
+      showToast(`+${ENERGY_PER_TASK}⚡ (visual +5%)`);
+      pulse(".energyPill");
+    }
+
+    function renderEnergy(){
+      energyValue.textContent = String(Math.max(0, Math.floor(Number(energy||0))));
+    }
 
     /********************
      * Contents modal
@@ -2037,7 +2441,6 @@
       contentsTitle.textContent = `${caseObj.title}`.toUpperCase();
       contentsList.innerHTML = "";
 
-      // сорт: дорогие сверху
       const items = caseObj.pool
         .map(p=>({ p, g: getGift(p.gift) }))
         .sort((a,b)=> b.g.value - a.g.value);
@@ -2050,7 +2453,7 @@
             <div class="thumb">${giftThumbHTML(g, 38)}</div>
             <div style="min-width:0">
               <b>${escapeHtml(g.name)}</b>
-              <span><span class="star"></span>${formatStars(g.value)}</span>
+              <span><img class="starI" src="${escapeAttr(STAR_PNG)}" alt="★">${formatStars(g.value)}</span>
             </div>
           </div>
           <div class="wBadge">w: ${Math.round(p.w)}</div>
@@ -2067,12 +2470,10 @@
     contentsModal.addEventListener("click", (e)=>{ if(e.target === contentsModal) hideOverlay(contentsModal); });
 
     /********************
-     * Add stars modal (+)
+     * Add stars modal (openInvoice)
      ********************/
     function openAddStarsModal(){
-      // default 100
       setPresetActive(100);
-      starsInput.value = "100";
       showOverlay(addStarsModal);
       gsap.fromTo(addStarsModal.querySelector(".modal"), {y:20, opacity:0}, {y:0, opacity:1, duration:.20, ease:"power2.out"});
     }
@@ -2088,25 +2489,48 @@
       if(!btn) return;
       const v = Number(btn.dataset.v || "0");
       if(!v) return;
-      setPresetActive(v);
-      starsInput.value = String(v);
-      pulse("#presetRow");
-    });
 
-    btnApplyStars.addEventListener("click", ()=>{
-      const v = Number(String(starsInput.value).replace(/[^\d.]/g,""));
-      if(!Number.isFinite(v) || v <= 0){
-        showToast("Неверная сумма");
-        wiggle("#starsInput");
+      setPresetActive(v);
+      pulse("#presetRow");
+
+      const link = INVOICE_LINKS[v];
+      if(!link || link.startsWith("PASTE_")){
+        showToast("Вставь ссылку openInvoice в INVOICE_LINKS");
         return;
       }
-      stars = round1(stars + v);
-      saveNumber(STORAGE.stars, stars);
-      renderStars();
-      hideOverlay(addStarsModal);
-      showToast(`+${formatStars(v)}★`);
-      pulse(".wallet");
+
+      showToast("Открываю invoice…");
+      try{
+        if(tg?.openInvoice) tg.openInvoice(link);
+        else window.open(link, "_blank");
+      }catch(e){
+        window.open(link, "_blank");
+      }
     });
+
+    // Listen invoice result (Telegram)
+    try{
+      tg?.onEvent?.("invoiceClosed", (data)=>{
+        // data: {url, status: "paid"|"cancelled"|"failed"...}
+        // we add stars only if paid AND amount is known by chosen preset:
+        const status = data?.status;
+        if(status !== "paid") return;
+
+        // We can't read exact amount from invoiceClosed reliably without backend,
+        // so we add the currently "active preset".
+        const active = presetRow.querySelector(".preset.active");
+        const v = Number(active?.dataset.v || "0");
+        if(!v) return;
+
+        stars = round1(stars + v);
+        saveNumber(STORAGE.stars, stars);
+        renderStars();
+
+        hideOverlay(addStarsModal);
+        showToast(`+${formatStars(v)}★`);
+        pulse(".wallet");
+      });
+    }catch(e){}
 
     closeAddStars.addEventListener("click", ()=>hideOverlay(addStarsModal));
     btnCancelStars.addEventListener("click", ()=>hideOverlay(addStarsModal));
@@ -2230,6 +2654,35 @@
         document.body.style.overflow = "";
       }
     }
+
+    /********************
+     * STARTUP: try complete pending task if user returned quickly
+     ********************/
+    tryCompletePendingTask();
   </script>
+
+  <!--
+    ========= INSTRUCTION (Withdraw code fragments) =========
+
+    В каждом выводе код начинается с префикса (2 буквы) — это “фрагмент”, который
+    определяет подарок. Твой бот может парсить код до первого “-”.
+
+    TB = Toy Bear
+    HT = Heart
+    GF = Gift
+    RC = Rocket
+    BQ = Bouquet
+    DM = Diamond
+    LP = Lol pop
+    IR = Instant Ramen
+    IC = Ice Cream
+    LS = Lunar Snake
+    EE = Easter Egg
+    IK = Input Key
+    LC = Love Candle
+    TH = Top Hat
+
+    Пример кода: "DM-<рандом>-<рандом>" -> Diamond
+  -->
 </body>
 </html>
