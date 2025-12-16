@@ -624,82 +624,140 @@
       grid-template-columns: repeat(2, minmax(0,1fr));
       gap: 12px;
     }
-    .giftCard{
-      border-radius: 22px;
-      border:1px solid rgba(255,255,255,.10);
-      background: rgba(255,255,255,.06);
-      box-shadow: 0 12px 35px rgba(0,0,0,.22);
-      overflow:hidden;
-      display:flex;
-      flex-direction:column;
-      min-height: 214px;
-      position:relative;
-    }
-    .giftTop{
-      padding: 12px;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:10px;
-    }
-    .giftQty{
-      font-weight:950;
-      padding: 7px 10px;
-      border-radius: 999px;
-      background: rgba(0,0,0,.16);
-      border:1px solid rgba(255,255,255,.10);
-      color: rgba(255,255,255,.88);
-      min-width: 56px;
-      text-align:center;
-      font-size: 12px;
-    }
-    .giftImg{
-      margin: 0 12px 10px;
-      height: 96px;
-      border-radius: 18px;
-      background: rgba(0,0,0,.18);
-      overflow:hidden;
-      display:grid; place-items:center;
-    }
-    .giftImg img{width:100%; height:100%; object-fit:cover; display:block;}
-    .giftImg .fallback{font-size:44px}
-    .giftMeta{
-      padding: 0 12px 12px;
-      display:flex;
-      flex-direction:column;
-      gap:6px;
-    }
-    .giftName{
-      font-weight:950;
-      font-size: 12.5px;
-      line-height:1.15;
-      color: rgba(255,255,255,.92);
-      min-height: 30px;
-    }
-    .giftActions{
-      margin-top:auto;
-      padding: 12px;
-      display:flex;
-      gap:10px;
-    }
-    .btnSmall{
-      flex:1;
-      height: 40px;
-      border-radius: 14px;
-      font-weight:950;
-      font-size: 12px;
-      border:1px solid rgba(255,255,255,.12);
-      background: rgba(0,0,0,.14);
-      color: rgba(255,255,255,.92);
-      cursor:pointer;
-      display:flex; align-items:center; justify-content:center; gap:8px;
-      user-select:none;
-    }
-    .btnSmall.primary{
-      background: rgba(74,163,255,.18);
-      border-color: rgba(74,163,255,.22);
-    }
-    .btnSmall:active{transform: translateY(1px)}
+    /* ===== INVENTORY CARD (REWORK) ===== */
+
+.giftCard{
+  border-radius: 22px;
+  border:1px solid rgba(255,255,255,.10);
+  background: rgba(255,255,255,.06);
+  box-shadow: 0 14px 40px rgba(0,0,0,.28);
+  overflow:hidden;
+
+  display:flex;
+  flex-direction:column;
+  height: 240px;              /* 🔥 фиксированная высота */
+  position:relative;
+}
+
+/* ─── TOP ROW ─── */
+.giftTop{
+  padding: 12px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  flex:0 0 auto;
+}
+
+.giftQty{
+  font-weight:950;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(0,0,0,.18);
+  border:1px solid rgba(255,255,255,.10);
+  color: rgba(255,255,255,.9);
+  min-width: 52px;
+  text-align:center;
+  font-size: 12px;
+}
+
+/* ─── IMAGE ─── */
+.giftImg{
+  margin: 0 14px 8px;
+  height: 96px;
+  border-radius: 18px;
+  background: rgba(0,0,0,.20);
+  overflow:hidden;
+
+  display:grid;
+  place-items:center;
+  flex:0 0 auto;
+}
+
+.giftImg img{
+  width:100%;
+  height:100%;
+  object-fit:contain;         /* 🔥 НЕ cover */
+  display:block;
+}
+
+.giftImg .fallback{
+  font-size:44px;
+}
+
+/* ─── META ─── */
+.giftMeta{
+  padding: 0 14px;
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+  flex:1 1 auto;
+  min-height: 0;
+}
+
+.giftName{
+  font-weight:950;
+  font-size: 12.5px;
+  line-height:1.2;
+  color: rgba(255,255,255,.92);
+  text-align:center;
+
+  /* --- CLAMP (modern + fallback) --- */
+  display: -webkit-box;
+  display: box;                 /* legacy fallback */
+
+  -webkit-box-orient: vertical;
+  box-orient: vertical;          /* legacy */
+
+  -webkit-line-clamp: 2;         /* Chrome / Safari */
+  line-clamp: 2;                 /* 🔥 стандарт */
+
+  overflow: hidden;
+}
+
+
+/* ─── ACTIONS ─── */
+.giftActions{
+  padding: 12px;
+  display:flex;
+  gap:10px;
+  flex:0 0 auto;
+}
+
+/* ─── BUTTONS ─── */
+.btnSmall{
+  flex:1;
+  height: 38px;
+  border-radius: 14px;
+  font-weight:950;
+  font-size: 12px;
+
+  border:1px solid rgba(255,255,255,.12);
+  background: rgba(0,0,0,.16);
+  color: rgba(255,255,255,.92);
+
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  user-select:none;
+  transition: transform .12s ease, background .12s ease;
+}
+
+.btnSmall.primary{
+  background: linear-gradient(
+    180deg,
+    rgba(74,163,255,.22),
+    rgba(74,163,255,.12)
+  );
+  border-color: rgba(74,163,255,.28);
+}
+
+.btnSmall:active{
+  transform: translateY(1px) scale(.985);
+}
+
 
     /* ===== UPGRADE (REWORK, ровно) ===== */
     .upWrap{
