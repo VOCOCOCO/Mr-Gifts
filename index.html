@@ -1535,7 +1535,7 @@
       },
       { id:"blue", title:"Blue Drop", price:69, badge:"NEW", emoji:"💧", img:"img/cases/blue.png",
         desc:"Уклон в средние призы.",
-        pool:[ {gift:"toy_bear",w:18},{gift:"heart",w:18},{gift:"gift",w:16},{gift:"rocket",w:14},{gift:"bouquet",w:14},{gift:"diamond",w:8},{gift:"lol_pop",w:1} ]
+        pool:[ {gift:"toy_bear",w:18},{gift:"heart",w:18},{gift:"gift",w:16},{gift:"rocket",w:13},{gift:"bouquet",w:13},{gift:"diamond",w:8},{gift:"lol_pop",w:1} ]
       },
       { id:"sweet", title:"Sweet Box", price:99, badge:"NEW", emoji:"🍭", img:"img/cases/sweet.png",
         desc:"Сладкая темка.",
@@ -1547,7 +1547,7 @@
       },
       { id:"boost", title:"Booster", price:235, badge:"LIMITED", emoji:"🚀", img:"img/cases/booster.png",
         desc:"Шанс на дорогие выше.",
-        pool:[ {gift:"gift",w:14},{gift:"rocket",w:10},{gift:"bouquet",w:10},{gift:"diamond",w:8},{gift:"lol_pop",w:5},{gift:"instant_ramen",w:5},{gift:"ice_cream",w:5},{gift:"lunar_snake",w:5},{gift:"easter_egg",w:2},{gift:"input_key",w:1},{gift:"top_hat",w:1},{gift:"love_candle",w:1} ]
+        pool:[ {gift:"gift",w:14},{gift:"rocket",w:10},{gift:"bouquet",w:10},{gift:"diamond",w:8},{gift:"lol_pop",w:4},{gift:"instant_ramen",w:4},{gift:"ice_cream",w:4},{gift:"lunar_snake",w:5},{gift:"easter_egg",w:2},{gift:"input_key",w:1},{gift:"top_hat",w:1},{gift:"love_candle",w:1} ]
       },
       { id:"rare", title:"Rare Night", price:499, badge:"HOT", emoji:"🌙", img:"img/cases/rare.png",
         desc:"Фарм Nft подарков",
@@ -1603,6 +1603,11 @@
 
     // spinner angle
     let spinnerAngle = 0;
+
+    function resetUpgradeSpinner(){
+  spinnerAngle = 0;
+  gsap.set(spinnerArm, { rotation: 0 });
+}
 
     /********************
      * DOM
@@ -2228,6 +2233,10 @@
         wiggle("#slotFrom");
         showToast("LOSE");
       }
+
+      await sleep(350);
+      resetUpgradeSpinner();
+
 
       renderInventory();
 
