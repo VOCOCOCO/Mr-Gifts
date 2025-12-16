@@ -2206,15 +2206,39 @@
     withdrawModal.addEventListener("click", (e)=>{ if(e.target===withdrawModal) hideOverlay(withdrawModal); });
 
     btnCopyCode.addEventListener("click", async ()=>{
-      const txt = withdrawCode.textContent || "";
-      try{
-        await navigator.clipboard.writeText(txt);
-        showToast("Код скопирован");
-      }catch(e){
-        showToast("Не удалось скопировать");
-      }
-      pulse(withdrawCode);
-    });
+  const txt = withdrawCode.textContent || "";
+  if(!withdrawGiftId) return;
+
+  try{
+    await navigator.clipboard.writeText(txt);
+  }catch(e){
+    showToast("Не удалось скопировать");
+    return;
+  }
+
+  // 1️⃣ УДАЛЯЕМ 1 ПОДАРОК ИЗ ИНВЕНТАРЯ
+  removeFromInv(withdrawGiftId, 1);
+
+  // если подарков 0 — очищаем выбор апгрейда
+  if(inventory[withdrawGiftId] <= 0){
+    if(upgradeFrom === withdrawGiftId) upgradeFrom = null;
+    if(upgradeTo === withdrawGiftId) upgradeTo = null;
+  }
+
+  // 2️⃣ ПЕРЕРИСОВКА
+  renderInventory();
+  renderUpgrade();
+
+  // 3️⃣ ЗАКРЫВАЕМ МОДАЛКУ
+  hideOverlay(withdrawModal);
+
+  // 4️⃣ UX
+  showToast("Код скопирован");
+  pulse(".wallet");
+
+  withdrawGiftId = null;
+});
+
 
     function randCode(n){
       const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789abcdefghjkmnpqrstuvwxyz";
