@@ -269,7 +269,7 @@
       object-fit:cover;
       display:block;
       transform: scale(1.02);
-      margin-block: -3px;
+      margin-block: 12px;
     }
     .caseAvatar .fallback{
       font-size: 52px;
@@ -1572,7 +1572,7 @@
       { id:"gift",         name:"Gift",          emoji:"🎁", value:25,  img:"Gift.png" },
       { id:"rocket",       name:"Rocket",        emoji:"🚀", value:50,  img:"Rocket (2).png" },
       { id:"bouquet",      name:"Bouquet",       emoji:"💐", value:50,  img:"Buquet.png" },
-      { id:"diamond",      name:"Diamond",       emoji:"💎", value:100, img:"Diamonds.png" },
+      { id:"diamond",      name:"Diamond",       emoji:"💎", value:100, img:"Gem.png" },
       { id:"lol_pop",      name:"Lol pop",       emoji:"🍭", value:235, img:"Frozen.png" },
       { id:"instant_ramen",name:"Instant Ramen", emoji:"🍜", value:250, img:"Diamonds.png" },
       { id:"ice_cream",    name:"Ice Cream",     emoji:"🍦", value:265, img:"Crystal.png" },
@@ -1587,39 +1587,39 @@
      * Cases (you can change prices/images if needed)
      ********************/
     const CASES = [
-      { id:"quick", title:"Quick Start", price:45, badge:"HOT", emoji:"⚡", img:"IMG_5264.PNG",
+      { id:"quick", title:"Quick Start", price:45, badge:"HOT", emoji:"⚡", img:"Quick Start.PNG",
         desc:"Быстрый кейс для старта.",
         pool:[ {gift:"toy_bear",w:24},{gift:"heart",w:24},{gift:"gift",w:20},{gift:"rocket",w:12},{gift:"bouquet",w:12},{gift:"diamond",w:8} ]
       },
-      { id:"blue", title:"Blue Drop", price:69, badge:"NEW", emoji:"💧", img:"img/cases/blue.png",
+      { id:"blue", title:"Blue Drop", price:69, badge:"NEW", emoji:"💧", img:"Blue Drop.PNG",
         desc:"Уклон в средние призы.",
         pool:[ {gift:"toy_bear",w:18},{gift:"heart",w:18},{gift:"gift",w:16},{gift:"rocket",w:13},{gift:"bouquet",w:13},{gift:"diamond",w:8},{gift:"lol_pop",w:1} ]
       },
-      { id:"sweet", title:"Sweet Box", price:99, badge:"NEW", emoji:"🍭", img:"img/cases/sweet.png",
+      { id:"sweet", title:"Sweet Box", price:99, badge:"NEW", emoji:"🍭", img:"Sweet Box.PNG",
         desc:"Сладкая темка.",
         pool:[ {gift:"toy_bear",w:16},{gift:"heart",w:16},{gift:"gift",w:14},{gift:"rocket",w:12},{gift:"bouquet",w:12},{gift:"diamond",w:8},{gift:"lol_pop",w:3},{gift:"instant_ramen",w:3} ]
       },
-      { id:"classic", title:"Magnat", price:160, badge:"NEW", emoji:"🎁", img:"img/cases/classic.png",
+      { id:"classic", title:"Magnat", price:160, badge:"NEW", emoji:"🎁", img:"Magnat.PNG",
         desc:"Балансированный кейс.",
         pool:[ {gift:"toy_bear",w:14},{gift:"heart",w:14},{gift:"gift",w:12},{gift:"rocket",w:12},{gift:"bouquet",w:12},{gift:"diamond",w:10},{gift:"lol_pop",w:6},{gift:"instant_ramen",w:6},{gift:"ice_cream",w:6} ]
       },
-      { id:"boost", title:"Booster", price:235, badge:"LIMITED", emoji:"🚀", img:"img/cases/booster.png",
+      { id:"boost", title:"Booster", price:235, badge:"LIMITED", emoji:"🚀", img:"Booster.PNG",
         desc:"Шанс на дорогие выше.",
         pool:[ {gift:"gift",w:14},{gift:"rocket",w:10},{gift:"bouquet",w:10},{gift:"diamond",w:8},{gift:"lol_pop",w:4},{gift:"instant_ramen",w:4},{gift:"ice_cream",w:4},{gift:"lunar_snake",w:5},{gift:"easter_egg",w:2},{gift:"input_key",w:1},{gift:"top_hat",w:1},{gift:"love_candle",w:1} ]
       },
-      { id:"rare", title:"Rare Night", price:499, badge:"HOT", emoji:"🌙", img:"img/cases/rare.png",
+      { id:"rare", title:"Rare Night", price:399, badge:"HOT", emoji:"🌙", img:"Rare Night.PNG",
         desc:"Фарм Nft подарков",
         pool:[ {gift:"diamond",w:16},{gift:"lol_pop",w:7},{gift:"instant_ramen",w:7},{gift:"ice_cream",w:7},{gift:"lunar_snake",w:7},{gift:"easter_egg",w:5},{gift:"input_key",w:4},{gift:"top_hat",w:1},{gift:"love_candle",w:1} ]
       },
-      { id:"key", title:"Key Hunter", price:452, badge:"LIMITED", emoji:"🔑", img:"img/cases/key.png",
+      { id:"key", title:"Key Hunter", price:452, badge:"LIMITED", emoji:"🔑", img:"Key Hunter.PNG",
         desc:"Уклон в Love Candle.",
         pool:[ {gift:"gift",w:14},{gift:"rocket",w:10},{gift:"bouquet",w:10},{gift:"diamond",w:10},{gift:"ice_cream",w:8},{gift:"lunar_snake",w:8},{gift:"easter_egg",w:7},{gift:"input_key",w:6},{gift:"top_hat",w:2},{gift:"love_candle",w:1} ]
       },
-      { id:"big", title:"Nft Vibe", price:599, badge:"LIMITED", emoji:"👑", img:"img/cases/big.png", big:true,
+      { id:"big", title:"Nft Vibe", price:549, badge:"LIMITED", emoji:"👑", img:"Nft Vibe.PNG", big:true,
         desc:"Только нфт",
         pool:[ {gift:"lol_pop",w:12},{gift:"instant_ramen",w:12},{gift:"ice_cream",w:11},{gift:"lunar_snake",w:11},{gift:"easter_egg",w:8},{gift:"input_key",w:6},{gift:"top_hat",w:3},{gift:"love_candle",w:3} ]
       },
-      { id:"hat", title:"Hat & Candle", price:419, badge:"LIMITED", emoji:"🎩", img:"img/cases/hat.png",
+      { id:"hat", title:"Hat & Candle", price:419, badge:"LIMITED", emoji:"🎩", img:"Hat & Candle.PNG",
         desc:"Уклон в Top Hat и Love Candle.",
         pool:[ {gift:"diamond",w:16},{gift:"easter_egg",w:8},{gift:"input_key",w:6},{gift:"top_hat",w:4},{gift:"love_candle",w:4},{gift:"lol_pop",w:8},{gift:"instant_ramen",w:8},{gift:"ice_cream",w:8} ]
       }
