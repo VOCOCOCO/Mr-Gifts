@@ -2028,59 +2028,39 @@
       gsap.set(reel, {x:0});
     }
 
-  // защита от двойного запуска
-let upgradeSpinning = false;
+    async function spinTo(giftId, caseObj){
+      buildReel(caseObj);
 
-async function spinUpgradeTo(final){
-  if(upgradeSpinning) return;
-  upgradeSpinning = true;
+      const chips = [...reel.querySelectorAll(".itemChip")];
+      const targetIndex = randInt(40, 56);
 
-  // --- безопасный сброс ---
-  gsap.killTweensOf(spinnerArm);
-  gsap.set(spinnerArm, { rotation: spinnerAngle });
+      const g = getGift(giftId);
+      chips[targetIndex].dataset.gift = giftId;
+      chips[targetIndex].innerHTML = `
+        <div class="chipImg">${giftThumbHTML(g, 42)}</div>
+        <div class="n">${escapeHtml(g.name)}</div>
+      `;
 
-  // --- 1️⃣ МЕДЛЕННЫЙ СТАРТ ---
-  await gsapToPromise(spinnerArm, {
-    rotation: spinnerAngle + 28,
-    duration: 0.7,
-    ease: "power1.in"
-  });
+      const chipW = 114;
+      const containerW = document.querySelector(".track").clientWidth;
+      const centerX = containerW / 2;
+      const leftPadding = 14;
+      const targetX = leftPadding + targetIndex * chipW + 52;
+      const finalX = centerX - targetX;
 
-  // --- 2️⃣ АКТИВНЫЙ РАЗГОН ---
-  await gsapToPromise(spinnerArm, {
-    rotation: spinnerAngle + 150,
-    duration: 0.9,
-    ease: "power2.in"
-  });
+      const dur = 2.0 + Math.random()*0.6;
+      const overshoot = finalX - (45 + Math.random()*45);
 
-  // --- 3️⃣ ИНЕРЦИЯ ---
-  await gsapToPromise(spinnerArm, {
-    rotation: final + 14,
-    duration: 1.7,
-    ease: "none"
-  });
+      gsap.set(reel, {x: 20});
+      await sleep(50);
 
-  // --- 4️⃣ ДОЛГОЕ ПЛАВНОЕ ТОРМОЖЕНИЕ ---
-  await gsapToPromise(spinnerArm, {
-    rotation: final,
-    duration: 1.2,
-    ease: "expo.out"
-  });
+      await gsapToPromise(reel, { x: overshoot, duration: dur, ease: "power3.out" });
+      await gsapToPromise(reel, { x: finalX, duration: 0.5, ease: "elastic.out(1, 0.35)" });
 
-  // --- 5️⃣ МИКРО-ДОВОДКА (ВАУ) ---
-  gsap.fromTo(
-    spinnerArm,
-    { rotation: final - 0.6 },
-    { rotation: final + 0.6, duration: 0.08, repeat: 2, yoyo: true, ease: "power1.inOut" }
-  );
-
-  spinnerAngle = final;
-  upgradeSpinning = false;
-}
-
-
-
-
+      const winChip = chips[targetIndex];
+      gsap.fromTo(winChip, {scale:1}, {scale:1.07, duration:.16, yoyo:true, repeat:1, ease:"power2.out"});
+      pulse(".centerLine");
+    }
 
     /********************
      * Inventory
@@ -2317,24 +2297,7 @@ async function spinUpgradeTo(final){
       const final = (spinnerAngle % 360) + spins*360 + targetAngle;
       spinnerAngle = final;
 
-      await gsapToPromise(spinnerArm, {
-  rotation: final - 20,
-  duration: 0.45,
-  ease: "power2.in"
-});
-
-await gsapToPromise(spinnerArm, {
-  rotation: final + 8,
-  duration: 1.25,
-  ease: "expo.out"
-});
-
-await gsapToPromise(spinnerArm, {
-  rotation: final,
-  duration: 0.28,
-  ease: "power1.out"
-});
-
+      await gsapToPromise(spinnerArm, { rotation: final, duration: 1.35, ease:"power3.out" });
 
       removeFromInv(upgradeFrom, 1);
 
